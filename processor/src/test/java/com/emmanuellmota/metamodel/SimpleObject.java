@@ -3,7 +3,6 @@ package com.emmanuellmota.metamodel;
 import java.util.List;
 
 @GenerateModel
-@Filterable
 public class SimpleObject {
 
     private String name;

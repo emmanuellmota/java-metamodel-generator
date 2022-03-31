@@ -1,6 +1,7 @@
 package com.emmanuellmota.metamodel;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
@@ -24,15 +25,17 @@ class FilterableClassWriter {
     private final TypeElement beanType;
     private final ClassModel  classModel;
     private final String      metaClassName;
+    private final Class<?>    filterClass;
 
     /**
      * Initialize class with {@link TypeElement} and {@link ClassModel} containing attributes.
      * @param beanType the bean class.
      * @param classModel attribute informations about the bean class.
      */
-    FilterableClassWriter(TypeElement beanType, ClassModel classModel) {
+    FilterableClassWriter(TypeElement beanType, ClassModel classModel, Class<?> filterClass) {
         this.beanType = beanType;
         this.classModel = classModel;
+        this.filterClass = filterClass;
         metaClassName = beanType.getSimpleName() + SUFFIX;
     }
 
@@ -58,8 +61,7 @@ class FilterableClassWriter {
 
     private ParameterizedTypeName declarationTypeName(AttributeInfo info) {
         final TypeName attributeTypeName = Utils.getAttributeTypeName(info);
-        final Class<?> declaredClass = FilterField.class;
-        return ParameterizedTypeName.get(ClassName.get(declaredClass), attributeTypeName);
+        return ParameterizedTypeName.get(ClassName.get(filterClass), attributeTypeName);
     }
 
 }

@@ -1,4 +1,4 @@
-package com.emmanuellmota.metamodel;
+package com.emmanuellmota.metamodel.testing;
 
 import java.math.BigDecimal;
 

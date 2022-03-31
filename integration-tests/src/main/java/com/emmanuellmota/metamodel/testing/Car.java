@@ -8,8 +8,8 @@ import com.emmanuellmota.metamodel.GenerateModel;
 import com.emmanuellmota.metamodel.Orderable;
 
 @GenerateModel
-@Filterable
-@Orderable
+@Filterable(FilterField.class)
+@Orderable(OrderField.class)
 public class Car {
     private       String model;
     private final int    year;

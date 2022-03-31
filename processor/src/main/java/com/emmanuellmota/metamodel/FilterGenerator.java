@@ -1,6 +1,7 @@
 package com.emmanuellmota.metamodel;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Set;
 
@@ -21,6 +22,8 @@ public class FilterGenerator extends AbstractProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+        if (!this.shouldClaim(annotations)) return false;
+
         roundEnv.getElementsAnnotatedWith(Filterable.class).forEach(this::generateMetamodel);
         if (!roundEnv.processingOver() && round > 20) {
             messager().printMessage(Diagnostic.Kind.ERROR, "possible processing loop detected (21)");
@@ -33,7 +36,14 @@ public class FilterGenerator extends AbstractProcessor {
         TypeElement typeElement = (TypeElement) element;
         messager().printMessage(Diagnostic.Kind.NOTE, "processing " + element);
         final ClassModel classModel = new ClassHandler(typeElement, processingEnv).invoke();
-        writeMetaClass(typeElement, classModel);
+        var filterAnnotation = element.getAnnotation(Filterable.class);
+        try {
+            String filterClassName = APUtils.getTypeMirrorFromAnnotationValue(filterAnnotation::value).get(0).toString();
+            Class<?> filterClass = Class.forName(filterClassName);
+            writeMetaClass(typeElement, classModel, filterClass);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -46,9 +56,9 @@ public class FilterGenerator extends AbstractProcessor {
         return SourceVersion.RELEASE_17;
     }
 
-    private void writeMetaClass(TypeElement element, ClassModel classModel) {
+    private void writeMetaClass(TypeElement element, ClassModel classModel, Class<?> filterClass) {
         try {
-            new FilterableClassWriter(element, classModel).invoke();
+            new FilterableClassWriter(element, classModel, filterClass).invoke();
         } catch (IOException e) {
             messager().printMessage(Diagnostic.Kind.ERROR, "Writing metaclass failed", element);
         }
@@ -56,6 +66,15 @@ public class FilterGenerator extends AbstractProcessor {
 
     private Messager messager() {
         return processingEnv.getMessager();
+    }
+
+    private boolean shouldClaim(Set<? extends TypeElement> annotations) {
+        Set<String> supported = getSupportedAnnotationTypes();
+        for (TypeElement a : annotations) {
+            if (supported.contains(a.getQualifiedName().toString()))
+                return true;
+        }
+        return false;
     }
 
 }

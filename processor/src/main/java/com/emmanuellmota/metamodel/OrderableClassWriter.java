@@ -22,15 +22,17 @@ class OrderableClassWriter {
     private final TypeElement beanType;
     private final ClassModel  classModel;
     private final String      metaClassName;
+    private final Class<?>    orderClass;
 
     /**
      * Initialize class with {@link TypeElement} and {@link ClassModel} containing attributes.
      * @param beanType the bean class.
      * @param classModel attribute informations about the bean class.
      */
-    OrderableClassWriter(TypeElement beanType, ClassModel classModel) {
+    OrderableClassWriter(TypeElement beanType, ClassModel classModel, Class<?> orderClass) {
         this.beanType = beanType;
         this.classModel = classModel;
+        this.orderClass = orderClass;
         metaClassName = beanType.getSimpleName() + SUFFIX;
     }
 
@@ -49,7 +51,7 @@ class OrderableClassWriter {
     }
 
     private FieldSpec createFieldSpec(String attributeName, AttributeInfo info) {
-        return FieldSpec.builder(SortField.class, attributeName)
+        return FieldSpec.builder(orderClass, attributeName)
                         .addModifiers(Modifier.PRIVATE).build();
     }
 
