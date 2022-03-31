@@ -53,7 +53,7 @@ class FilterableClassWriter {
     private FieldSpec createFieldSpec(String attributeName, AttributeInfo info) {
         final ParameterizedTypeName fieldType = declarationTypeName(info);
         return FieldSpec.builder(fieldType, attributeName)
-                        .addModifiers(Modifier.PUBLIC).build();
+                        .addModifiers(Modifier.PRIVATE).build();
     }
 
     private ParameterizedTypeName declarationTypeName(AttributeInfo info) {

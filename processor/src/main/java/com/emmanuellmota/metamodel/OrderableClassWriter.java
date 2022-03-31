@@ -50,7 +50,7 @@ class OrderableClassWriter {
 
     private FieldSpec createFieldSpec(String attributeName, AttributeInfo info) {
         return FieldSpec.builder(SortField.class, attributeName)
-                        .addModifiers(Modifier.PUBLIC).build();
+                        .addModifiers(Modifier.PRIVATE).build();
     }
 
 }
