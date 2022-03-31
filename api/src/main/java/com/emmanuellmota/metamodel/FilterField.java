@@ -2,6 +2,9 @@ package com.emmanuellmota.metamodel;
 
 import java.math.BigDecimal;
 
+import lombok.Data;
+
+@Data
 public class FilterField<T> {
    /* private String operator;
    private String value;
@@ -34,16 +37,16 @@ public class FilterField<T> {
    // String ascending; // ascending("score");
    // String descending; // descending("score");
 
-   public BigDecimal lessThan; // lessThan("wins", 50);
-   public BigDecimal lessThanOrEqualTo; // lessThanOrEqualTo("wins", 50);
-   public BigDecimal greaterThan; // greaterThan("wins", 50);
-   public BigDecimal greaterThanOrEqualTo; // greaterThanOrEqualTo("wins", 50);
+   BigDecimal lessThan; // lessThan("wins", 50);
+   BigDecimal lessThanOrEqualTo; // lessThanOrEqualTo("wins", 50);
+   BigDecimal greaterThan; // greaterThan("wins", 50);
+   BigDecimal greaterThanOrEqualTo; // greaterThanOrEqualTo("wins", 50);
 
-   public MinMaxField between;
-   public MinMaxField beside;
+   MinMaxField between;
+   MinMaxField beside;
 
-   public T[] containedIn; // containedIn("playerName", ["Jonathan Walsh", "Dario Wunsch", "Shawn Simon"]);
-   public T[] notContainedIn; // notContainedIn("playerName", ["Jonathan Walsh", "Dario Wunsch", "Shawn Simon"]);
+   T[] containedIn; // containedIn("playerName", ["Jonathan Walsh", "Dario Wunsch", "Shawn Simon"]);
+   T[] notContainedIn; // notContainedIn("playerName", ["Jonathan Walsh", "Dario Wunsch", "Shawn Simon"]);
 
    // T exists; // exists("score");
    // T doesNotExist; // doesNotExist("score");
@@ -74,11 +77,9 @@ public class FilterField<T> {
 
    // String distinct; // distinct('score');
 
-   public T equalTo; // equalTo("arrayKey", 2);
+   T equalTo; // equalTo("arrayKey", 2);
    // T[] containsAll; // containsAll("arrayKey", [2, 3, 4]);
 
-   public String startsWith; // startsWith("name", "Big Daddy's");
-   public String endsWith; // endsWith("name", "Sauce");
-
-   public FilterField() {}
+   String startsWith; // startsWith("name", "Big Daddy's");
+   String endsWith; // endsWith("name", "Sauce");
 }

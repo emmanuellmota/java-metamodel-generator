@@ -12,6 +12,8 @@ import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
+import lombok.Data;
+
 /**
  * Create meta model class for given Type.
  */
@@ -40,7 +42,7 @@ class FilterableClassWriter {
      */
     void invoke() throws IOException {
         TypeSpec.Builder classBuilder = TypeSpec.classBuilder(metaClassName)
-                                                .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT);
+                                                .addModifiers(Modifier.PUBLIC).addAnnotation(Data.class);
         classModel.attributes().forEach((name, type) -> classBuilder.addField(createFieldSpec(name, type)));
 
         JavaFile javaFile = JavaFile.builder(ClassName.get(beanType).packageName(), classBuilder.build()).indent("    ")

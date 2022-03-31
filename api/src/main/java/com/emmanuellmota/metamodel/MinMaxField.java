@@ -2,7 +2,10 @@ package com.emmanuellmota.metamodel;
 
 import java.math.BigDecimal;
 
+import lombok.Data;
+
+@Data
 public class MinMaxField {
-    public BigDecimal min;
-    public BigDecimal max;
+    BigDecimal min;
+    BigDecimal max;
 }
