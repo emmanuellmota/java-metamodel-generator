@@ -1,9 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>de.hilling.lang.metamodel</groupId>
+    <groupId>com.emmanuellmota.metamodel</groupId>
     <artifactId>metamodel-generator</artifactId>
-    <version>2.0.1-SNAPSHOT</version>
+    <version>2.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <url>https://github.com/guhilling/java-metamodel-generator</url>
     <inceptionYear>2018</inceptionYear>
@@ -50,6 +50,16 @@
                 <role>committer</role>
             </roles>
         </developer>
+        <developer>
+            <name>Emmanuel Mota</name>
+            <id>emmanuellmota</id>
+            <email>emmanuellmota@gmail.com</email>
+            <timezone>-3</timezone>
+            <roles>
+                <role>architect</role>
+                <role>committer</role>
+            </roles>
+        </developer>
     </developers>
 
     <modules>
@@ -81,15 +91,12 @@
     </dependencyManagement>
 
     <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
         <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+          <id>github</id>
+          <name>Static Metamodel Generator</name>
+          <url>https://maven.pkg.github.com/emmanuellmota/java-metamodel-generator</url>
         </repository>
-    </distributionManagement>
+     </distributionManagement>
 
     <build>
         <pluginManagement>
@@ -114,7 +121,7 @@
                         <include>de/hilling/lang/**</include>
                     </includes>
                     <excludes>
-                        <exclude>de/hilling/lang/metamodel/testing/**</exclude>
+                        <exclude>com/emmanuellmota/metamodel/testing/**</exclude>
                         <exclude>**/*Metamodel</exclude>
                         <exclude>**/*Metamodel$*</exclude>
                     </excludes>

@@ -1,6 +1,6 @@
-de.hilling.lang.metamodel.MetamodelVerifier
-de.hilling.lang.metamodel.FilterVerifier
-de.hilling.lang.metamodel.OrderableVerifier
-de.hilling.lang.metamodel.MetamodelGenerator
-de.hilling.lang.metamodel.FilterGenerator
-de.hilling.lang.metamodel.OrderGenerator
+com.emmanuellmota.metamodel.MetamodelVerifier
+com.emmanuellmota.metamodel.FilterVerifier
+com.emmanuellmota.metamodel.OrderableVerifier
+com.emmanuellmota.metamodel.MetamodelGenerator
+com.emmanuellmota.metamodel.FilterGenerator
+com.emmanuellmota.metamodel.OrderGenerator

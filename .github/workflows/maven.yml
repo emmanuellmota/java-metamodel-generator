@@ -17,7 +17,7 @@ jobs:
               sonar:sonar
               -Dsonar.host.url=https://sonarcloud.io
               -Dsonar.organization=guhilling-github
-              -Dsonar.projectKey=de.hilling.lang.metamodel:metamodel-generator
+              -Dsonar.projectKey=com.emmanuellmota.metamodel:metamodel-generator
     name: Maven Build JDK ${{ matrix.java }}
 
     steps:
