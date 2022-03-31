@@ -51,7 +51,7 @@ class FilterableClassWriter {
         TypeSpec.Builder classBuilder = TypeSpec.classBuilder(metaClassName)
                                                 .addModifiers(Modifier.PUBLIC)
                                                 .addAnnotation(Data.class)
-                                                .addAnnotation(AnnotationSpec.builder(Generated.class).addMember("value", "$S", FilterGenerator.class.getName()).build());
+                                                .addAnnotation(AnnotationSpec.builder(Generated.class).addMember("value", "\"$L\"", OrderGenerator.class.getCanonicalName()).build());
         classModel.attributes().forEach((name, type) -> classBuilder.addField(createFieldSpec(name, type)));
 
         JavaFile javaFile = JavaFile.builder(ClassName.get(beanType).packageName(), classBuilder.build()).indent("    ")
