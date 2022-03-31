@@ -3,9 +3,13 @@ package de.hilling.lang.metamodel.testing;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hilling.lang.metamodel.Filterable;
 import de.hilling.lang.metamodel.GenerateModel;
+import de.hilling.lang.metamodel.Orderable;
 
 @GenerateModel
+@Filterable
+@Orderable
 public class Car {
     private       String model;
     private final int    year;

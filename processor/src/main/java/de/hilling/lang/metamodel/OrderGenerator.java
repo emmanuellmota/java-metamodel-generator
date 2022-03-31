@@ -15,13 +15,13 @@ import javax.tools.Diagnostic;
 /**
  * Generate static metamodel for plain java classes.
  */
-public class MetamodelGenerator extends AbstractProcessor {
+public class OrderGenerator extends AbstractProcessor {
 
     private int round;
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        roundEnv.getElementsAnnotatedWith(GenerateModel.class).forEach(this::generateMetamodel);
+        roundEnv.getElementsAnnotatedWith(Orderable.class).forEach(this::generateMetamodel);
         if (!roundEnv.processingOver() && round > 20) {
             messager().printMessage(Diagnostic.Kind.ERROR, "possible processing loop detected (21)");
         }
@@ -38,7 +38,7 @@ public class MetamodelGenerator extends AbstractProcessor {
 
     @Override
     public Set<String> getSupportedAnnotationTypes() {
-        return Collections.singleton(GenerateModel.class.getCanonicalName());
+        return Collections.singleton(Orderable.class.getCanonicalName());
     }
 
     @Override
@@ -48,7 +48,7 @@ public class MetamodelGenerator extends AbstractProcessor {
 
     private void writeMetaClass(TypeElement element, ClassModel classModel) {
         try {
-            new MetaClassWriter(element, classModel).invoke();
+            new OrderableClassWriter(element, classModel).invoke();
         } catch (IOException e) {
             messager().printMessage(Diagnostic.Kind.ERROR, "Writing metaclass failed", element);
         }

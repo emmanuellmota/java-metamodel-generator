@@ -186,6 +186,7 @@
                 <version>2.22.2</version>
                 <configuration>
                     <argLine>${surefireArgLine}</argLine>
+                    <argLine>--add-opens=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED</argLine>
                 </configuration>
             </plugin>
             <plugin>

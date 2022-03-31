@@ -17,9 +17,9 @@ import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 
-@SupportedAnnotationTypes({"de.hilling.lang.metamodel.GenerateModel"}) // , "de.hilling.lang.metamodel.Filterable", "de.hilling.lang.metamodel.Sortable"
+@SupportedAnnotationTypes({"de.hilling.lang.metamodel.Orderable"})
 @SupportedSourceVersion(SourceVersion.RELEASE_17)
-public class MetamodelVerifier extends AbstractProcessor {
+public class OrderableVerifier extends AbstractProcessor {
 
     public static final String ERROR_MESSAGE = "wrong use of annotation: must be used on class or abstract class.";
     private TypeMirror generateModel;
@@ -30,12 +30,12 @@ public class MetamodelVerifier extends AbstractProcessor {
         super.init(processingEnv);
         typeUtils = processingEnv.getTypeUtils();
         Elements elementUtils = processingEnv.getElementUtils();
-        generateModel = elementUtils.getTypeElement(GenerateModel.class.getName()).asType();
+        generateModel = elementUtils.getTypeElement(Orderable.class.getName()).asType();
     }
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        roundEnv.getElementsAnnotatedWith(GenerateModel.class).forEach(this::verifyNotAnAnnotation);
+        roundEnv.getElementsAnnotatedWith(Orderable.class).forEach(this::verifyNotAnAnnotation);
         return false;
     }
 

@@ -3,6 +3,7 @@ package de.hilling.lang.metamodel;
 import java.util.List;
 
 @GenerateModel
+@Filterable
 public class SimpleObject {
 
     private String name;
