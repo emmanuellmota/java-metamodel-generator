@@ -1,7 +1,6 @@
 package com.emmanuellmota.metamodel;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Set;
 
@@ -38,10 +37,9 @@ public class FilterGenerator extends AbstractProcessor {
         final ClassModel classModel = new ClassHandler(typeElement, processingEnv).invoke();
         var filterAnnotation = element.getAnnotation(Filterable.class);
         try {
-            String filterClassName = APUtils.getTypeMirrorFromAnnotationValue(filterAnnotation::value).get(0).toString();
-            Class<?> filterClass = Class.forName(filterClassName);
-            writeMetaClass(typeElement, classModel, filterClass);
-        } catch (ClassNotFoundException e) {
+            String filterClassName = filterAnnotation.toString().split("[\\(\\)]")[1].replace(".class", "");
+            writeMetaClass(typeElement, classModel, filterClassName);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -56,9 +54,9 @@ public class FilterGenerator extends AbstractProcessor {
         return SourceVersion.RELEASE_17;
     }
 
-    private void writeMetaClass(TypeElement element, ClassModel classModel, Class<?> filterClass) {
+    private void writeMetaClass(TypeElement element, ClassModel classModel, String filterClassName) {
         try {
-            new FilterableClassWriter(element, classModel, filterClass).invoke();
+            new FilterableClassWriter(element, classModel, filterClassName).invoke();
         } catch (IOException e) {
             messager().printMessage(Diagnostic.Kind.ERROR, "Writing metaclass failed", element);
         }

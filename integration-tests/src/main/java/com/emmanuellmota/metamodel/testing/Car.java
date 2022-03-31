@@ -13,7 +13,7 @@ import com.emmanuellmota.metamodel.Orderable;
 public class Car {
     private       String model;
     private final int    year;
-    private final List<String> owners = new ArrayList();
+    private final List<String> owners = new ArrayList<>();
 
     public Car(int year) {
         this.year = year;

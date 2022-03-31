@@ -34,11 +34,11 @@ public class OrderGenerator extends AbstractProcessor {
         messager().printMessage(Diagnostic.Kind.NOTE, "processing " + element);
         final ClassModel classModel = new ClassHandler(typeElement, processingEnv).invoke();
         var orderableAnnotation = element.getAnnotation(Orderable.class);
+        var orderAnnotation = element.getAnnotation(Filterable.class);
         try {
-            String orderClassName = APUtils.getTypeMirrorFromAnnotationValue(orderableAnnotation::value).get(0).toString();
-            Class<?> orderClass = Class.forName(orderClassName);
-            writeMetaClass(typeElement, classModel, orderClass);
-        } catch (ClassNotFoundException e) {
+            String orderClassName = orderAnnotation.toString().split("[\\(\\)]")[1].replace(".class", "");
+            writeMetaClass(typeElement, classModel, orderClassName);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -53,9 +53,9 @@ public class OrderGenerator extends AbstractProcessor {
         return SourceVersion.RELEASE_17;
     }
 
-    private void writeMetaClass(TypeElement element, ClassModel classModel, Class<?> orderClass) {
+    private void writeMetaClass(TypeElement element, ClassModel classModel, String orderClassName) {
         try {
-            new OrderableClassWriter(element, classModel, orderClass).invoke();
+            new OrderableClassWriter(element, classModel, orderClassName).invoke();
         } catch (IOException e) {
             messager().printMessage(Diagnostic.Kind.ERROR, "Writing metaclass failed", element);
         }

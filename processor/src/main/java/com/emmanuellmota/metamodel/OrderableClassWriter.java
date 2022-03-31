@@ -1,10 +1,13 @@
 package com.emmanuellmota.metamodel;
 
 import java.io.IOException;
+import java.util.Arrays;
 
+import javax.annotation.processing.Generated;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 
+import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
@@ -22,17 +25,17 @@ class OrderableClassWriter {
     private final TypeElement beanType;
     private final ClassModel  classModel;
     private final String      metaClassName;
-    private final Class<?>    orderClass;
+    private final String      orderClassName;
 
     /**
      * Initialize class with {@link TypeElement} and {@link ClassModel} containing attributes.
      * @param beanType the bean class.
      * @param classModel attribute informations about the bean class.
      */
-    OrderableClassWriter(TypeElement beanType, ClassModel classModel, Class<?> orderClass) {
+    OrderableClassWriter(TypeElement beanType, ClassModel classModel, String orderClassName) {
         this.beanType = beanType;
         this.classModel = classModel;
-        this.orderClass = orderClass;
+        this.orderClassName = orderClassName;
         metaClassName = beanType.getSimpleName() + SUFFIX;
     }
 
@@ -42,7 +45,9 @@ class OrderableClassWriter {
      */
     void invoke() throws IOException {
         TypeSpec.Builder classBuilder = TypeSpec.classBuilder(metaClassName)
-                                                .addModifiers(Modifier.PUBLIC).addAnnotation(Data.class);
+                                                .addModifiers(Modifier.PUBLIC)
+                                                .addAnnotation(Data.class)
+                                                .addAnnotation(AnnotationSpec.builder(Generated.class).addMember("value", "$S", OrderGenerator.class.getName()).build());
         classModel.attributes().forEach((name, type) -> classBuilder.addField(createFieldSpec(name, type)));
 
         JavaFile javaFile = JavaFile.builder(ClassName.get(beanType).packageName(), classBuilder.build()).indent("    ")
@@ -51,7 +56,8 @@ class OrderableClassWriter {
     }
 
     private FieldSpec createFieldSpec(String attributeName, AttributeInfo info) {
-        return FieldSpec.builder(orderClass, attributeName)
+        String[] classArr = orderClassName.split("\\.");
+        return FieldSpec.builder(ClassName.get(String.join(".", Arrays.copyOf(classArr, classArr.length - 1)), classArr[classArr.length - 1]), attributeName)
                         .addModifiers(Modifier.PRIVATE).build();
     }
 

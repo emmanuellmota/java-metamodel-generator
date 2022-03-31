@@ -1,11 +1,15 @@
 package com.emmanuellmota.metamodel;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
+import javax.annotation.processing.Generated;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 
+import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
@@ -25,17 +29,17 @@ class FilterableClassWriter {
     private final TypeElement beanType;
     private final ClassModel  classModel;
     private final String      metaClassName;
-    private final Class<?>    filterClass;
+    private final String      filterClassName;
 
     /**
      * Initialize class with {@link TypeElement} and {@link ClassModel} containing attributes.
      * @param beanType the bean class.
      * @param classModel attribute informations about the bean class.
      */
-    FilterableClassWriter(TypeElement beanType, ClassModel classModel, Class<?> filterClass) {
+    FilterableClassWriter(TypeElement beanType, ClassModel classModel, String filterClassName) {
         this.beanType = beanType;
         this.classModel = classModel;
-        this.filterClass = filterClass;
+        this.filterClassName = filterClassName;
         metaClassName = beanType.getSimpleName() + SUFFIX;
     }
 
@@ -45,10 +49,13 @@ class FilterableClassWriter {
      */
     void invoke() throws IOException {
         TypeSpec.Builder classBuilder = TypeSpec.classBuilder(metaClassName)
-                                                .addModifiers(Modifier.PUBLIC).addAnnotation(Data.class);
+                                                .addModifiers(Modifier.PUBLIC)
+                                                .addAnnotation(Data.class)
+                                                .addAnnotation(AnnotationSpec.builder(Generated.class).addMember("value", "$S", FilterGenerator.class.getName()).build());
         classModel.attributes().forEach((name, type) -> classBuilder.addField(createFieldSpec(name, type)));
 
         JavaFile javaFile = JavaFile.builder(ClassName.get(beanType).packageName(), classBuilder.build()).indent("    ")
+                                    .addFileComment("Generated code. Do not modify!")
                                     .build();
         javaFile.writeTo(classModel.getEnvironment().getFiler());
     }
@@ -61,7 +68,8 @@ class FilterableClassWriter {
 
     private ParameterizedTypeName declarationTypeName(AttributeInfo info) {
         final TypeName attributeTypeName = Utils.getAttributeTypeName(info);
-        return ParameterizedTypeName.get(ClassName.get(filterClass), attributeTypeName);
+        String[] classArr = filterClassName.split("\\.");
+        return ParameterizedTypeName.get(ClassName.get(String.join(".", Arrays.copyOf(classArr, classArr.length - 1)), classArr[classArr.length - 1]), attributeTypeName);
     }
 
 }
