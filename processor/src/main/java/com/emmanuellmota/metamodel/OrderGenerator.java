@@ -35,7 +35,7 @@ public class OrderGenerator extends AbstractProcessor {
         final ClassModel classModel = new ClassHandler(typeElement, processingEnv).invoke();
         var orderAnnotation = element.getAnnotation(Orderable.class);
         try {
-            String orderClassName = orderAnnotation.toString().split("[\\(\\)]")[1].replace(".class", "");
+            String orderClassName = orderAnnotation.toString().replaceAll(".class", "").replaceAll("value = ", "").split("[\\(\\)]")[1];
             writeMetaClass(typeElement, classModel, orderClassName);
         } catch (Exception e) {
             e.printStackTrace();

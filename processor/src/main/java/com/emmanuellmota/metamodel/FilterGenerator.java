@@ -37,9 +37,7 @@ public class FilterGenerator extends AbstractProcessor {
         final ClassModel classModel = new ClassHandler(typeElement, processingEnv).invoke();
         var filterAnnotation = element.getAnnotation(Filterable.class);
         try {
-            String filterClassName = filterAnnotation.toString().replaceAll(".class", "").split("[\\(\\)]")[1];
-            System.out.println("---------------------------- HERE");
-            System.out.println(filterAnnotation.toString().replaceAll(".class", "").replaceAll("value = ", "").split("[\\(\\)]")[1]);
+            String filterClassName = filterAnnotation.toString().replaceAll(".class", "").replaceAll("value = ", "").split("[\\(\\)]")[1];
             writeMetaClass(typeElement, classModel, filterClassName);
         } catch (Exception e) {
             e.printStackTrace();
