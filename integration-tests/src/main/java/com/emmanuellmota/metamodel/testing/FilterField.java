@@ -2,9 +2,6 @@ package com.emmanuellmota.metamodel.testing;
 
 import java.math.BigDecimal;
 
-import lombok.Data;
-
-@Data
 public class FilterField<T> {
    /* private String operator;
    private String value;

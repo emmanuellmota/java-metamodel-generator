@@ -4,7 +4,6 @@ import static com.emmanuellmota.metamodel.testing.Person__Metamodel.birthDate;
 import static com.emmanuellmota.metamodel.testing.Person__Metamodel.firstName;
 import static com.emmanuellmota.metamodel.testing.Person__Metamodel.lastName;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 
 import java.time.LocalDate;
 import java.time.Month;

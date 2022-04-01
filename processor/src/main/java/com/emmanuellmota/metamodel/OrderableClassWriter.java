@@ -3,18 +3,14 @@ package com.emmanuellmota.metamodel;
 import java.io.IOException;
 import java.util.Arrays;
 
-import javax.annotation.processing.Generated;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 
-import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
-
-import lombok.Data;
 
 /**
  * Create meta model class for given Type.
